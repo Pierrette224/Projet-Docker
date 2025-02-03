@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./simple_api
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./simple_api/data:/data
+    networks:
+      - student_network
+
+  website:
+    image: php:apache
+    volumes:
+      - ./website:/var/www/html
+    depends_on:
+      - api
+    ports:
+      - "8080:80"
+    environment:
+      API_USER: toto
+      API_PASSWORD: python
+    networks:
+      - student_network
+
+networks:
+  student_network:
+
